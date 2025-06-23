@@ -1,43 +1,82 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger,SplitText } from "gsap/all";
-gsap.registerPlugin(ScrollTrigger);
+import { ScrollTrigger, SplitText } from "gsap/all";
+import { useRef } from "react";
+import { useMediaQuery } from "react-responsive";
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
+
 const Hero = () => {
-    useGSAP(() => {
-        const heroSplit = new SplitText('.title', {type: 'chars, words'})
-        const paragraphSplit = new SplitText('.subtitle', {type: 'lines'})
+  const videoRef = useRef(null);
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
-        heroSplit.chars.forEach((char) => char.classList.add('text-gradient'))
+  useGSAP(() => {
+    const heroSplit = new SplitText(".title", { type: "chars, words" });
+    const paragraphSplit = new SplitText(".subtitle", { type: "lines" });
 
-        gsap.from(heroSplit.chars, {
-            yPercent: 100,
-            duration: 1.8,
-            ease: 'expo.out',
-            stagger: 0.06
-        })
-        gsap.from(paragraphSplit.lines, {
-            opacity:0,
-            yPercent: 100,
-            duration: 1.8,
-            ease: 'expo.out',
-            stagger: 0.06,
-            delay: 1,
-        })
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: '#hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-          }
-        })
-        .to('.left-leaf', { y:200 } ,0)
-        .to('.right-leaf', { y:-200 } ,0)
+    heroSplit.chars.forEach((char) =>
+      char.classList.add("text-gradient")
+    );
 
+    gsap.from(heroSplit.chars, {
+      yPercent: 100,
+      duration: 1.8,
+      ease: "expo.out",
+      stagger: 0.06,
+    });
+
+    gsap.from(paragraphSplit.lines, {
+      opacity: 0,
+      yPercent: 100,
+      duration: 1.8,
+      ease: "expo.out",
+      stagger: 0.06,
+      delay: 1,
+    });
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: "#hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
     })
+      .to(".left-leaf", { y: 200 }, 0)
+      .to(".right-leaf", { y: -200 }, 0);
+
+    const startValue = isMobile ? "top 50%" : "center 60%";
+    const endValue = isMobile ? "120% top" : "bottom top";
+
+    const videoElement = videoRef.current;
+
+    if (!videoElement) return;
+
+    const videoTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: videoElement,
+        start: startValue,
+        end: endValue,
+        scrub: true,
+        pin: true,
+        // onEnter: () => videoElement.play(),
+        // onLeave: () => videoElement.pause(),
+        // onEnterBack: () => videoElement.play(),
+        // onLeaveBack: () => videoElement.pause(),
+      },
+    });
+
+    videoElement.onloadedmetadata = () => {
+      videoTimeline.to(videoElement, {
+        currentTime: videoElement.duration,
+        ease: "none",
+      });
+    };
+  }, []);
+
   return (
     <>
-      <section id="hero" className="noisy">
+      <section id="hero" className="noisy relative z-10">
         <h1 className="title">MOJITO</h1>
         <img
           src="/images/hero-left-leaf.png"
@@ -50,21 +89,32 @@ const Hero = () => {
           className="right-leaf"
         />
         <div className="body">
-            <div className="content">
-                <div className="space-y-5 hidden md:block">
-                    <p>Cool. Crisp. Classic.</p>
-                    <p className="subtitle">Paaan koro Sob Thanda hoye jabe</p>
-
-                </div>
-                <div className="view-cocktails">
-                    <p className="subtitle">
-                        Every cocktail on our menu is a blend of premium ingredients, creative flair, and timeless recipes — designed to delight your senses. 
-                    </p>
-                    <a href="#cocktails">View Cocktails</a>
-                </div>
+          <div className="content">
+            <div className="space-y-5 hidden md:block">
+              <p>Cool. Crisp. Classic.</p>
+              <p className="subtitle">Paaan koro Sob Thanda hoye jabe</p>
             </div>
+            <div className="view-cocktails">
+              <p className="subtitle">
+                Every cocktail on our menu is a blend of premium ingredients,
+                creative flair, and timeless recipes — designed to delight your
+                senses.
+              </p>
+              <a href="#cocktails">View Cocktails</a>
+            </div>
+          </div>
         </div>
       </section>
+
+      <div className="video absolute inset-0 z-0">
+        <video
+          ref={videoRef}
+          src="/videos/output.mp4"
+          muted
+          playsInline
+          preload="auto"
+        />
+      </div>
     </>
   );
 };
