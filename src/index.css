@@ -6,6 +6,10 @@
   font-family: "Modern Negra";
   src: url("/fonts/Modern Negra Demo.ttf") format("truetype");
 }
+/* @font-face {
+  font-family: "Galada";
+  src: url("/public/fonts/Galada-Regular.ttf") format("truetype");
+} */
 
 @theme {
   --color-yellow: #e7d393;
@@ -13,6 +17,7 @@
   --font-sans: "Mona Sans", sans-serif;
   --font-modern-negra: "Modern Negra", sans-serif;
   --font-serif: "DM Serif Text", serif;
+  --font-galada: "Galada", cursive;
 }
 
 html,
@@ -57,6 +62,14 @@ body {
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: 50%;
+}
+@layer utilities {
+  .font-galada {
+    font-family: "Galada", cursive;
+  }
+  .font-modern-negra {
+    font-family: "Modern Negra", sans-serif;
+  }
 }
 
 @layer components {
@@ -324,7 +337,7 @@ body {
         @apply space-y-4 lg:translate-y-20;
 
         #title {
-          @apply font-modern-negra md:text-6xl text-3xl text-yellow max-w-40;
+          @apply font-modern-negra md:text-6xl text-3xl text-yellow max-w-40;   
         }
       }
 
