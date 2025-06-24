@@ -14,9 +14,7 @@ const Hero = () => {
     const heroSplit = new SplitText(".title", { type: "chars, words" });
     const paragraphSplit = new SplitText(".subtitle", { type: "lines" });
 
-    heroSplit.chars.forEach((char) =>
-      char.classList.add("text-gradient")
-    );
+    heroSplit.chars.forEach((char) => char.classList.add("text-gradient"));
 
     gsap.from(heroSplit.chars, {
       yPercent: 100,
@@ -34,14 +32,15 @@ const Hero = () => {
       delay: 1,
     });
 
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: "#hero",
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-      },
-    })
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      })
       .to(".left-leaf", { y: 200 }, 0)
       .to(".right-leaf", { y: -200 }, 0);
 
@@ -76,18 +75,19 @@ const Hero = () => {
 
   return (
     <>
-      <section id="hero" className="noisy relative z-10">
+      <section id="hero" className="noisy">
         <h1 className="title">MOJITO</h1>
-        <img
-          src="/images/hero-left-leaf.png"
-          alt="left-leaf"
-          className="left-leaf"
-        />
         <img
           src="/images/hero-right-leaf.png"
           alt="right-leaf"
           className="right-leaf"
         />
+        <img
+          src="/images/hero-left-leaf.png"
+          alt="left-leaf"
+          className="left-leaf"
+        />
+        
         <div className="body">
           <div className="content">
             <div className="space-y-5 hidden md:block">
@@ -106,13 +106,13 @@ const Hero = () => {
         </div>
       </section>
 
-      <div className="video absolute inset-0 z-0">
+      <div className="video absolute inset-0">
         <video
           ref={videoRef}
-          src="/videos/output.mp4"
           muted
           playsInline
           preload="auto"
+          src="/videos/output.mp4"
         />
       </div>
     </>

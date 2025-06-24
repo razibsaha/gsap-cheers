@@ -12,7 +12,7 @@ const Cocktails = () => {
         start: "top 30%",
         end: "bottom 80%",
         scrub: true,
-      }
+      },
     });
 
     parallaxTimeline
@@ -23,20 +23,23 @@ const Cocktails = () => {
       .from("#c-right-leaf", {
         x: 100,
         y: 100,
-      })
+      });
   });
   return (
     <section id="cocktails" className="noisy">
-      <img src="/images/cocktail-left-leaf.png" alt="l-leaf" id="c-left-leaf" />
+      <img
+        src="/images/cocktail-left-leaf.png"
+        alt="left-leaf"
+        id="c-left-leaf"
+      />
       <img
         src="/images/cocktail-right-leaf.png"
-        alt="r-leaf"
+        alt="right-leaf"
         id="c-right-leaf"
       />
-
-      <div className="list">
+      <div class="list">
         <div className="popular">
-          <h2>Most popular Cocktails</h2>
+          <h2>Most popular Cocktails:</h2>
 
           <ul>
             {cocktailLists.map(({ name, country, detail, price }) => (
@@ -52,10 +55,8 @@ const Cocktails = () => {
             ))}
           </ul>
         </div>
-      </div>
 
-      <div className="list">
-        <div className="popular">
+        <div className="loved">
           <h2>Most Loved Mocktails</h2>
 
           <ul>
